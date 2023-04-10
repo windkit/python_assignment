@@ -3,11 +3,38 @@
 This uses 
 
 # Tech Stack
+- Docker
+- PostgreSQL
+  Performant Database
+- FastAPI (Python)
+  Easy to develop yet performant RESTful API server.
+- Pandas (Python)
+  Easy to process data, e.g. computing statistics of data
+  
+
 
 # How to run
-
 ## 0. Setup
+Data fill script needs PostgreSQL client installed on the system.
+```
+# Ubuntu/Debian
+$ apt install -y postgresql-client
 
+# Mac
+$ brew install postgresql
+```
+
+Environment variables are used to pass necessary parameters to components and scripts, so you have to set the envionrment variables before running the server.
+```
+## AlphaVantage API Key
+ALPHA_VANTAGE_KEY="KEY_HERE"
+
+## Database related
+DB_USER="testuser"
+DB_PASSWORD="testpass"
+DB_DATABASE="testdb"
+
+```
 
 ## 1. Start the database and api server
 Start up the database and 
