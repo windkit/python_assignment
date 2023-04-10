@@ -42,19 +42,18 @@ def start_server():
 
 db_conn, app = start_server()
 
-
-@app.get("/database")
-def read_db():
-    return str(db_conn)
-
-
-@app.get("/status")
-def read_status():
-    return "OK Test"
-
-
 DATA_STATEMENT = "SELECT * FROM financial_data"
 
+#https://stackoverflow.com/questions/16870663/how-do-i-validate-a-date-string-format-in-python
+from datetime import datetime
+
+def validate_date(date_text):
+  try:
+    if date_text != datetime.strptime(date_text, "%Y-%m-%d").strftime('%Y-%m-%d'):
+      raise ValueError
+    return True
+  except ValueError:
+    return False
 
 def get_data(start_date, end_date, symbol):
     query = DATA_STATEMENT
@@ -63,10 +62,14 @@ def get_data(start_date, end_date, symbol):
 
     # TODO: Validation
     if start_date:
+        if not validate_date(start_date):
+          raise Exception("Invalid start_date")
         where_clauses.append("date >= %s")
         query_values.append(start_date)
 
     if end_date:
+        if not validate_date(end_date):
+          raise Exception("Invalid end_date")
         where_clauses.append("date <= %s")
         query_values.append(end_date)
 
@@ -90,7 +93,15 @@ def get_data(start_date, end_date, symbol):
 
 @app.get("/api/financial_data")
 def read_data(limit: int = 5, start_date: str | None = None, end_date: str | None = None, symbol: str | None = None, page: int = 1):
-    df = get_data(start_date, end_date, symbol)
+    try:
+      df = get_data(start_date, end_date, symbol)
+    except Exception as e:
+      return {
+        "data" : "",
+        "pagination" : {},
+        "error" : e
+        }
+
     count = len(df)
     pages = count // limit + (count % limit > 0)
     offset = (page - 1) * limit
@@ -111,7 +122,14 @@ def read_data(limit: int = 5, start_date: str | None = None, end_date: str | Non
 
 @app.get("/api/statistics")
 def read_stat(start_date: str, end_date: str, symbol: str):
-    df = get_data(start_date, end_date, symbol)
+    try:
+      df = get_data(start_date, end_date, symbol)
+    except Exception as e:
+      return {
+        "data" : "",
+        "pagination" : {},
+        "error" : e
+        }
 
     # Catch the case when there is no data fetched with the supplied arguments.
     if df.empty:
