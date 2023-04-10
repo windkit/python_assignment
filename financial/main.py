@@ -8,6 +8,7 @@ from logging import INFO
 import pandas as pd
 
 from fastapi import FastAPI
+import uvicorn
 
 # create formatter
 formatter = logging.Formatter(
@@ -134,3 +135,6 @@ def read_stat(start_date: str, end_date: str, symbol: str):
         "info": {'error': ''}
     }
     return result_dict
+
+if __name__ == '__main__':
+      uvicorn.run(app, port=5000, host='0.0.0.0')
