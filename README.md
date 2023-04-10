@@ -6,7 +6,8 @@ Provides a API server to read financial data and statistics.
 - PostgreSQL
   - Performant Database
 - FastAPI (Python)
-  - Easy to develop yet performant RESTful API server.
+  - Easy to develop yet performant RESTful API server
+  - Built-in query parameter check
 - Pandas (Python)
   - Easy to process data, e.g. computing statistics of data
   
