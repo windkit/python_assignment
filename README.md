@@ -1,15 +1,14 @@
 # Description
-
-This uses 
+Provides a API server to read financial data and statistics.
 
 # Tech Stack
 - Docker
 - PostgreSQL
-  Performant Database
+  - Performant Database
 - FastAPI (Python)
-  Easy to develop yet performant RESTful API server.
+  - Easy to develop yet performant RESTful API server.
 - Pandas (Python)
-  Easy to process data, e.g. computing statistics of data
+  - Easy to process data, e.g. computing statistics of data
   
 
 
